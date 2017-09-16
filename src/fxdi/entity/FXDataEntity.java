@@ -624,76 +624,74 @@ public class FXDataEntity {
 		this.currencyPair = currencyPair;
 	}
 
-	public FXDataEntity importRecordCsv1(String[] record,FXDataEntity entity) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd HH:mm"); 
+	public void importRecordCsv1(String[] record) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm"); 
 		try {
-			entity.date = sdf.parse(record[0]);
+			this.date = sdf.parse(record[0]);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		entity.hajimene = Double.parseDouble(record[1]);
-		entity.takane = Double.parseDouble(record[2]);
-		entity.yasune = Double.parseDouble(record[3]);
-		entity.owarine = Double.parseDouble(record[4]);
-		entity.sma21 = Double.parseDouble(record[5]);
-		entity.sma55 = Double.parseDouble(record[6]);
-		entity.sma89 = Double.parseDouble(record[7]);
-		entity.span9 = Double.parseDouble(record[8]);
-		entity.span52 = Double.parseDouble(record[9]);
-		entity.spanDelayLine12 = Double.parseDouble(record[10]);
-		entity.stochasticsK9 = Double.parseDouble(record[11]);
-		entity.stochasticsD3 = Double.parseDouble(record[12]);
-		entity.stochasticsSlowD3 = Double.parseDouble(record[13]);
-		entity.dmiDPlus14 = Double.parseDouble(record[14]);
-		entity.dmiDMinus14 = Double.parseDouble(record[15]);
-		entity.dmiAdx14 = Double.parseDouble(record[16]);
-		entity.dmiAdxr14 = Double.parseDouble(record[17]);
-		entity.yobi = getYobiFromDate(date);
-		return entity;
+		this.hajimene = Double.parseDouble(record[1]);
+		this.takane = Double.parseDouble(record[2]);
+		this.yasune = Double.parseDouble(record[3]);
+		this.owarine = Double.parseDouble(record[4]);
+		this.sma21 = Double.parseDouble(record[5]);
+		this.sma55 = Double.parseDouble(record[6]);
+		this.sma89 = Double.parseDouble(record[7]);
+		this.span9 = Double.parseDouble(record[8]);
+		this.span52 = Double.parseDouble(record[9]);
+		this.spanDelayLine12 = Double.parseDouble(record[10]);
+		this.stochasticsK9 = Double.parseDouble(record[11]);
+		this.stochasticsD3 = Double.parseDouble(record[12]);
+		this.stochasticsSlowD3 = Double.parseDouble(record[13]);
+		this.dmiDPlus14 = Double.parseDouble(record[14]);
+		this.dmiDMinus14 = Double.parseDouble(record[15]);
+		this.dmiAdx14 = Double.parseDouble(record[16]);
+		this.dmiAdxr14 = Double.parseDouble(record[17]);
+		this.yobi = getYobiFromDate(date);
 	}
 	
-	public FXDataEntity importRecordCsv2(String[] record,FXDataEntity entity) {
-		entity.ema5 = Double.parseDouble(record[5]);
-		entity.ema12 = Double.parseDouble(record[6]);
-		entity.ema26 = Double.parseDouble(record[7]);
-		entity.parabolicBuy = Double.parseDouble(record[8]);
-		entity.parabolicSell = Double.parseDouble(record[9]);
-		entity.envelopeStandard21 = Double.parseDouble(record[10]);
-		entity.envelopeDivergence2Bottom = Double.parseDouble(record[11]);
-		entity.envelopeDivergence2Top = Double.parseDouble(record[12]);
-		entity.envelopeDivergence3Bottom = Double.parseDouble(record[13]);
-		entity.envelopeDivergence3Top = Double.parseDouble(record[14]);
-		entity.gmmaS1with3 = Double.parseDouble(record[15]);
-		entity.gmmaS2with5 = Double.parseDouble(record[16]);
-		entity.gmmaS3with8 = Double.parseDouble(record[17]);
-		entity.gmmaS4with10 = Double.parseDouble(record[18]);
-		entity.gmmaS5with12 = Double.parseDouble(record[19]);
-		entity.gmmaS6with15 = Double.parseDouble(record[20]);
-		entity.gmmaL1with30 = Double.parseDouble(record[21]);
-		entity.gmmaL2with35 = Double.parseDouble(record[22]);
-		entity.gmmaL3with40 = Double.parseDouble(record[23]);
-		entity.gmmaL4with45 = Double.parseDouble(record[24]);
-		entity.gmmaL5with50 = Double.parseDouble(record[25]);
-		entity.gmmaL6with60 = Double.parseDouble(record[26]);
-		entity.gmmaTP21 = Double.parseDouble(record[27]);
-		entity.sBollingerPlus1Sigma = Double.parseDouble(record[28]);
-		entity.sBollingerMinus1Sigma = Double.parseDouble(record[29]);
-		entity.sBollingerPlus2Sigma = Double.parseDouble(record[30]);
-		entity.sBollingerMinus2Sigma = Double.parseDouble(record[31]);
-		entity.sBollingerPlus3Sigma = Double.parseDouble(record[32]);
-		entity.sBollingerMinus3Sigma = Double.parseDouble(record[33]);
-		entity.sBollingerDelayLine21 = Double.parseDouble(record[34]);
-		entity.hlBandh20 = Double.parseDouble(record[35]);
-		entity.hlBandl20 = Double.parseDouble(record[36]);
-		entity.hlBandCenter = Double.parseDouble(record[37]);
-		entity.macd1226 = Double.parseDouble(record[38]);
-		entity.macdParalellSignal9 = Double.parseDouble(record[39]);
-		entity.macdDivergence = Double.parseDouble(record[40]);
-		entity.AverageHajimene = Double.parseDouble(record[41]);
-		entity.AverageTakane = Double.parseDouble(record[42]);
-		entity.AverageYasune = Double.parseDouble(record[43]);
-		entity.AverageOwarine = Double.parseDouble(record[44]);
-		return entity;
+	public void importRecordCsv2(String[] record) {
+		this.ema5 = Double.parseDouble(record[5]);
+		this.ema12 = Double.parseDouble(record[6]);
+		this.ema26 = Double.parseDouble(record[7]);
+		this.parabolicBuy = Double.parseDouble(record[8]);
+		this.parabolicSell = Double.parseDouble(record[9]);
+		this.envelopeStandard21 = Double.parseDouble(record[10]);
+		this.envelopeDivergence2Bottom = Double.parseDouble(record[11]);
+		this.envelopeDivergence2Top = Double.parseDouble(record[12]);
+		this.envelopeDivergence3Bottom = Double.parseDouble(record[13]);
+		this.envelopeDivergence3Top = Double.parseDouble(record[14]);
+		this.gmmaS1with3 = Double.parseDouble(record[15]);
+		this.gmmaS2with5 = Double.parseDouble(record[16]);
+		this.gmmaS3with8 = Double.parseDouble(record[17]);
+		this.gmmaS4with10 = Double.parseDouble(record[18]);
+		this.gmmaS5with12 = Double.parseDouble(record[19]);
+		this.gmmaS6with15 = Double.parseDouble(record[20]);
+		this.gmmaL1with30 = Double.parseDouble(record[21]);
+		this.gmmaL2with35 = Double.parseDouble(record[22]);
+		this.gmmaL3with40 = Double.parseDouble(record[23]);
+		this.gmmaL4with45 = Double.parseDouble(record[24]);
+		this.gmmaL5with50 = Double.parseDouble(record[25]);
+		this.gmmaL6with60 = Double.parseDouble(record[26]);
+		this.gmmaTP21 = Double.parseDouble(record[27]);
+		this.sBollingerPlus1Sigma = Double.parseDouble(record[28]);
+		this.sBollingerMinus1Sigma = Double.parseDouble(record[29]);
+		this.sBollingerPlus2Sigma = Double.parseDouble(record[30]);
+		this.sBollingerMinus2Sigma = Double.parseDouble(record[31]);
+		this.sBollingerPlus3Sigma = Double.parseDouble(record[32]);
+		this.sBollingerMinus3Sigma = Double.parseDouble(record[33]);
+		this.sBollingerDelayLine21 = Double.parseDouble(record[34]);
+		this.hlBandh20 = Double.parseDouble(record[35]);
+		this.hlBandl20 = Double.parseDouble(record[36]);
+		this.hlBandCenter = Double.parseDouble(record[37]);
+		this.macd1226 = Double.parseDouble(record[38]);
+		this.macdParalellSignal9 = Double.parseDouble(record[39]);
+		this.macdDivergence = Double.parseDouble(record[40]);
+		this.AverageHajimene = Double.parseDouble(record[41]);
+		this.AverageTakane = Double.parseDouble(record[42]);
+		this.AverageYasune = Double.parseDouble(record[43]);
+		this.AverageOwarine = Double.parseDouble(record[44]);
 	}
 	
 	/**

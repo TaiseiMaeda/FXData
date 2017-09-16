@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class FileIO {
 
 	public String[] inputFile(String path) {
-		String[] file = new String[400];
+		String[] file = new String[402];
 		int i = 0;
 		 try(FileInputStream is = new FileInputStream(path);){
 	            InputStreamReader ir = new InputStreamReader(is,"Shift_JIS");
