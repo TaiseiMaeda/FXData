@@ -1,11 +1,11 @@
 package fxdi.entity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.sql.ResultSet;
 import java.util.Calendar;
 import java.util.Date;
 
 import fxdi.utils.CodeConstants;
+import fxdi.utils.UtilMethods;
 
 public class FXDataEntity {
 
@@ -625,12 +625,8 @@ public class FXDataEntity {
 	}
 
 	public void importRecordCsv1(String[] record) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm"); 
-		try {
-			this.date = sdf.parse(record[0]);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+
+		this.date = UtilMethods.stringToDateyyyyMMddHHmm(record[0]);
 		this.hajimene = Double.parseDouble(record[1]);
 		this.takane = Double.parseDouble(record[2]);
 		this.yasune = Double.parseDouble(record[3]);
@@ -694,6 +690,67 @@ public class FXDataEntity {
 		this.AverageOwarine = Double.parseDouble(record[44]);
 	}
 	
+	public void resultsetToEntity(ResultSet rs,String currencyPair)throws Exception {
+		this.date = rs.getTimestamp("date");
+		this.hajimene = rs.getDouble("hajimene");
+		this.takane = rs.getDouble("takane");
+		this.yasune = rs.getDouble("yasune");
+		this.owarine = rs.getDouble("owarine");
+		this.sma21 = rs.getDouble("sma21");
+		this.sma55 = rs.getDouble("sma55");
+		this.sma89 = rs.getDouble("sma89");
+		this.span9 = rs.getDouble("span9");
+		this.span52 = rs.getDouble("span52");
+		this.spanDelayLine12 = rs.getDouble("spanDelayLine12");
+		this.stochasticsK9 = rs.getDouble("stochasticsK9");
+		this.stochasticsD3 = rs.getDouble("stochasticsD3");
+		this.stochasticsSlowD3 = rs.getDouble("stochasticsSlowD3");
+		this.dmiDPlus14 = rs.getDouble("dmiDPlus14");
+		this.dmiDMinus14 = rs.getDouble("dmiDMinus14");
+		this.dmiAdx14 = rs.getDouble("dmiAdx14");
+		this.dmiAdxr14 = rs.getDouble("dmiAdxr14");
+		this.yobi = getYobiFromDate(this.date);
+		this.ema5 = rs.getDouble("ema5");
+		this.ema12 = rs.getDouble("ema12");
+		this.ema26 = rs.getDouble("ema26");
+		this.parabolicBuy = rs.getDouble("parabolicBuy");
+		this.parabolicSell = rs.getDouble("parabolicSell");
+		this.envelopeStandard21 = rs.getDouble("envelopeStandard21");
+		this.envelopeDivergence2Bottom = rs.getDouble("envelopeDivergence2Bottom");
+		this.envelopeDivergence2Top = rs.getDouble("envelopeDivergence2Top");
+		this.envelopeDivergence3Bottom = rs.getDouble("envelopeDivergence3Bottom");
+		this.envelopeDivergence3Top = rs.getDouble("envelopeDivergence3Top");
+		this.gmmaS1with3 = rs.getDouble("gmmaS1with3");
+		this.gmmaS2with5 = rs.getDouble("gmmaS2with5");
+		this.gmmaS3with8 = rs.getDouble("gmmaS3with8");
+		this.gmmaS4with10 = rs.getDouble("gmmaS4with10");
+		this.gmmaS5with12 = rs.getDouble("gmmaS5with12");
+		this.gmmaS6with15 = rs.getDouble("gmmaS6with15");
+		this.gmmaL1with30 = rs.getDouble("gmmaL1with30");
+		this.gmmaL2with35 = rs.getDouble("gmmaL2with35");
+		this.gmmaL3with40 = rs.getDouble("gmmaL3with40");
+		this.gmmaL4with45 = rs.getDouble("gmmaL4with45");
+		this.gmmaL5with50 = rs.getDouble("gmmaL5with50");
+		this.gmmaL6with60 = rs.getDouble("gmmaL6with60");
+		this.gmmaTP21 = rs.getDouble("gmmaTP21");
+		this.sBollingerPlus1Sigma = rs.getDouble("sBollingerPlus1Sigma");
+		this.sBollingerMinus1Sigma = rs.getDouble("sBollingerMinus1Sigma");
+		this.sBollingerPlus2Sigma = rs.getDouble("sBollingerPlus2Sigma");
+		this.sBollingerMinus2Sigma = rs.getDouble("sBollingerMinus2Sigma");
+		this.sBollingerPlus3Sigma = rs.getDouble("sBollingerPlus3Sigma");
+		this.sBollingerMinus3Sigma = rs.getDouble("sBollingerMinus3Sigma");
+		this.sBollingerDelayLine21 = rs.getDouble("sBollingerDelayLine21");
+		this.hlBandh20 = rs.getDouble("hlBandh20");
+		this.hlBandl20 = rs.getDouble("hlBandl20");
+		this.hlBandCenter = rs.getDouble("hlBandCenter");
+		this.macd1226 = rs.getDouble("macd1226");
+		this.macdParalellSignal9 = rs.getDouble("macdParalellSignal9");
+		this.macdDivergence = rs.getDouble("macdDivergence");
+		this.AverageHajimene = rs.getDouble("AverageHajimene");
+		this.AverageTakane = rs.getDouble("AverageTakane");
+		this.AverageYasune = rs.getDouble("AverageYasune");
+		this.AverageOwarine = rs.getDouble("AverageOwarine");
+	}
 	/**
 	 * Dateを受け取り、曜日を返す。
 	 * @param date
@@ -705,4 +762,157 @@ public class FXDataEntity {
 		return CodeConstants.strYobi[cal.get(Calendar.DAY_OF_WEEK) - 1];
 	}
 	
+	/**
+	 * テクニカル値が0の所を新しいEntityから取った値で更新していく。
+	 * @param newEntity
+	 */
+	public void newIntoOldEntity(FXDataEntity newEntity) {
+		if(this.spanDelayLine12 == 0) {
+			this.spanDelayLine12 = newEntity.getSpanDelayLine12();
+		}
+		if(this.sBollingerDelayLine21 == 0) {
+			this.sBollingerDelayLine21 = newEntity.getsBollingerDelayLine21();
+		}
+		if(this.sma21 == 0) {
+			this.sma21 = newEntity.getSma21();
+		}
+		if(this.sma55 == 0) {
+			this.sma55 = newEntity.getSma55();
+		}	
+		if(this.sma89 == 0) {
+			this.sma89 = newEntity.getSma89();
+		}	
+		if(this.ema5 == 0) {
+			this.ema5 = newEntity.getEma5();
+		}	
+		if(this.ema12 == 0) {
+			this.ema12 = newEntity.getEma12();
+		}	
+		if(this.ema26 == 0) {
+			this.ema26 = newEntity.getEma26();
+		}	
+		if(this.span9 == 0) {
+			this.span9 = newEntity.getSpan9();
+		}	
+		if(this.span52 == 0) {
+			this.span52 = newEntity.getSpan52();
+		}	
+		if(this.dmiDPlus14 == 0) {
+			this.dmiDPlus14 = newEntity.getDmiDPlus14();
+		}	
+		if(this.dmiDMinus14 == 0) {
+			this.dmiDMinus14 = newEntity.getDmiDMinus14();
+		}
+		if(this.dmiAdx14 == 0) {
+			this.dmiAdx14 = newEntity.getDmiAdx14();
+		}
+		if(this.dmiAdxr14 == 0) {
+			this.dmiAdxr14 = newEntity.getDmiAdxr14();
+		}
+		if(this.stochasticsD3 == 0) {
+			this.stochasticsD3 = newEntity.getStochasticsD3();
+		}
+		if(this.stochasticsK9 == 0) {
+			this.stochasticsK9 = newEntity.getStochasticsK9();
+		}
+		if(this.stochasticsSlowD3 == 0) {
+			this.stochasticsSlowD3 = newEntity.getStochasticsSlowD3();
+		}
+		if(this.parabolicBuy == 0) {
+			this.parabolicBuy = newEntity.getParabolicBuy();
+		}
+		if(this.parabolicSell == 0) {
+			this.parabolicSell = newEntity.getParabolicSell();
+		}
+		if(this.envelopeDivergence2Bottom == 0) {
+			this.envelopeDivergence2Bottom = newEntity.getEnvelopeDivergence2Bottom();
+		}
+		if(this.envelopeDivergence2Top == 0) {
+			this.envelopeDivergence2Top = newEntity.getEnvelopeDivergence2Top();
+		}
+		if(this.envelopeDivergence3Bottom == 0) {
+			this.envelopeDivergence3Bottom = newEntity.getEnvelopeDivergence3Bottom();
+		}
+		if(this.envelopeDivergence3Top == 0) {
+			this.envelopeDivergence3Top = newEntity.getEnvelopeDivergence3Top();
+		}
+		if(this.envelopeStandard21 == 0) {
+			this.envelopeStandard21 = newEntity.getEnvelopeStandard21();
+		}
+		if(this.gmmaL1with30 == 0) {
+			this.gmmaL1with30 = newEntity.getGmmaL1with30();
+		}
+		if(this.gmmaL2with35 == 0) {
+			this.gmmaL2with35 = newEntity.getGmmaL2with35();
+		}
+		if(this.gmmaL3with40 == 0) {
+			this.gmmaL3with40 = newEntity.getGmmaL3with40();
+		}
+		if(this.gmmaL4with45 == 0) {
+			this.gmmaL4with45 = newEntity.getGmmaL4with45();
+		}
+		if(this.gmmaL5with50 == 0) {
+			this.gmmaL5with50 = newEntity.getGmmaL5with50();
+		}
+		if(this.gmmaL6with60 == 0) {
+			this.gmmaL6with60 = newEntity.getGmmaL6with60();
+		}
+		if(this.gmmaS1with3 == 0) {
+			this.gmmaS1with3 = newEntity.getGmmaS1with3();
+		}
+		if(this.gmmaS2with5 == 0) {
+			this.gmmaS2with5 = newEntity.getGmmaS2with5();
+		}
+		if(this.gmmaS3with8 == 0) {
+			this.gmmaS3with8 = newEntity.getGmmaS3with8();
+		}
+		if(this.gmmaS4with10 == 0) {
+			this.gmmaS4with10 = newEntity.getGmmaS4with10();
+		}
+		if(this.gmmaS5with12 == 0) {
+			this.gmmaS5with12 = newEntity.getGmmaS5with12();
+		}
+		if(this.gmmaS6with15 == 0) {
+			this.gmmaS6with15 = newEntity.getGmmaS6with15();
+		}
+		if(this.gmmaTP21 == 0) {
+			this.gmmaTP21 = newEntity.getGmmaTP21();
+		}
+		if(this.sBollingerMinus1Sigma == 0) {
+			this.sBollingerMinus1Sigma = newEntity.getsBollingerMinus1Sigma();
+		}
+		if(this.sBollingerMinus2Sigma == 0) {
+			this.sBollingerMinus2Sigma = newEntity.getsBollingerMinus2Sigma();
+		}
+		if(this.sBollingerMinus3Sigma == 0) {
+			this.sBollingerMinus3Sigma = newEntity.getsBollingerMinus3Sigma();
+		}
+		if(this.sBollingerPlus1Sigma == 0) {
+			this.sBollingerPlus1Sigma = newEntity.getsBollingerPlus1Sigma();
+		}
+		if(this.sBollingerPlus2Sigma == 0) {
+			this.sBollingerPlus2Sigma = newEntity.getsBollingerPlus2Sigma();
+		}
+		if(this.sBollingerPlus3Sigma == 0) {
+			this.sBollingerPlus3Sigma = newEntity.getsBollingerPlus3Sigma();
+		}
+		if(this.hlBandh20 == 0) {
+			this.hlBandh20 = newEntity.getHlBandh20();
+		}
+		if(this.hlBandl20 == 0) {
+			this.hlBandl20 = newEntity.getHlBandl20();
+		}
+		if(this.hlBandCenter == 0) {
+			this.hlBandCenter = newEntity.getHlBandCenter();
+		}
+		if(this.macd1226 == 0) {
+			this.macd1226 = newEntity.getMacd1226();
+		}
+		if(this.macdDivergence == 0) {
+			this.macdDivergence = newEntity.getMacdDivergence();
+		}
+		if(this.macdParalellSignal9 == 0) {
+			this.macdParalellSignal9 = newEntity.getMacdParalellSignal9();
+		}
+	}
 }
